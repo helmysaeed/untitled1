@@ -1,0 +1,19 @@
+<resources >
+    <!-- basic string -->
+    <string name="app_name">My Playground</string>
+
+    <!-- basic string with an argument -->
+    <string name="greeting">Hello %!</string>
+
+    <!-- plural string -->
+    <plurals name="likes">
+        <item quantity="one">%1d like</item>
+        <item quantity="other">%1d likes</item>
+    </plurals>
+
+    <!-- string array -->
+    <string-array name="planets">
+        <item>Earth</item>
+        <item>Mars</item>
+    </string-array>
+</resources>
