@@ -186,7 +186,7 @@ fun NavigatioPage(visablex: Boolean)
                 ) {
 
 
-                    if (page > 0) {
+                    if (page > 0.0) {
                         menuChild(page)
 
                     } else {
@@ -206,14 +206,14 @@ fun NavigatioPage(visablex: Boolean)
 
                     Column {
 
-                        IconButton(onClick = { page = 1 }, Modifier)
+                        IconButton(onClick = { page = 1.0 }, Modifier)
 
                         {
                             Text("1")
 
                         }
 
-                        IconButton(onClick = { page = 2 }, Modifier)
+                        IconButton(onClick = { page = 2.0 }, Modifier)
 
                         {
                             Text("2")
@@ -231,7 +231,7 @@ fun NavigatioPage(visablex: Boolean)
 
 
 @Composable
-fun menuChild( page :Int)
+fun menuChild( page :Double)
 {
 
     Card() {
