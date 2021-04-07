@@ -158,7 +158,7 @@ fun NavigatioPage(visablex: Boolean)
     var text by remember { mutableStateOf("Hello, World!") }
     var expanded by remember { mutableStateOf(false) }
 
-    var page by remember { mutableStateOf(0.0) }
+    val page = remember { mutableStateOf(0.0) }
     val visable = remember { mutableStateOf(visablex) }
     if (visable.value==true)
         Row() {
@@ -186,7 +186,7 @@ fun NavigatioPage(visablex: Boolean)
                 ) {
 
 
-                    if (page > 0.0) {
+                    if (page.equals(Pages.inventorypage)) {
                         menuChild(page)
 
                     } else {
@@ -206,14 +206,14 @@ fun NavigatioPage(visablex: Boolean)
 
                     Column {
 
-                        IconButton(onClick = { page = 1.0 }, Modifier)
+                        IconButton(onClick = { page.value = 1.0 }, Modifier)
 
                         {
                             Text("1")
 
                         }
 
-                        IconButton(onClick = { page = 2.0 }, Modifier)
+                        IconButton(onClick = { page.value = 2.0 }, Modifier)
 
                         {
                             Text("2")
