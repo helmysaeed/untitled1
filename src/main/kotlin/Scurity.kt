@@ -158,7 +158,7 @@ fun NavigatioPage(visablex: Boolean)
     var text by remember { mutableStateOf("Hello, World!") }
     var expanded by remember { mutableStateOf(false) }
 
-    var page by remember { mutableStateOf(0) }
+    var page by remember { mutableStateOf(0.0) }
     val visable = remember { mutableStateOf(visablex) }
     if (visable.value==true)
         Row() {

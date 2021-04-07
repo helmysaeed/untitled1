@@ -36,7 +36,7 @@ fun main() = Window {
         )
         {
 
-           RootPage(false)
+           RootPage(true)
 
         }
 
