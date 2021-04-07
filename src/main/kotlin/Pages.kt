@@ -1,4 +1,4 @@
-enum class Pages(pages: Double) {
+enum class Pages(val pagevalu: Double) {
 
     inventorypage(1.0)
 }

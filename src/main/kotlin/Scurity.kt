@@ -21,6 +21,7 @@ import com.mongodb.BasicDBObject
 import com.mongodb.client.MongoCursor
 import org.bson.Document
 import org.litote.kmongo.*
+import org.litote.kmongo.util.idValue
 import java.util.ArrayList
 import javax.swing.text.NavigationFilter
 
@@ -173,6 +174,10 @@ fun NavigatioPage(visablex: Boolean)
 
                 ) {
 
+                    if (page.value.equals(Pages.inventorypage.pagevalu)) {
+                        inventoryForm()
+
+                    }
 
                 }
             }
@@ -186,8 +191,8 @@ fun NavigatioPage(visablex: Boolean)
                 ) {
 
 
-                    if (page.equals(Pages.inventorypage)) {
-                        menuChild(page)
+                    if (page.value.equals(1.0)) {
+                        menuChild(page.value)
 
                     } else {
 
