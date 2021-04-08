@@ -1,4 +1,5 @@
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Button
@@ -31,7 +32,7 @@ fun inventoryForm()
             placeholder = { Text("enter name") }
         )
 
-
+           Spacer(Modifier.padding(4.dp))
         Button(onClick = {
             colItem.insertOne(Item(itemName.value.text))
             itemName.value= TextFieldValue("")
