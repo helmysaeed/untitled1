@@ -1,4 +1,5 @@
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -25,6 +26,11 @@ fun inventoryForm()
             placeholder = { Text("enter name") }
         )
 
+
+        Button(onClick = {})
+        {
+            Text("save")
+        }
         
     }
 
