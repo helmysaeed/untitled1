@@ -5,6 +5,12 @@ import org.litote.kmongo.getCollection
 
 public data class Users(val name: String, val passWord: String)
 public data class Item(val name: String)
+public data class ItemType(val name: String?, val value: Int?)
+public data class ItemUnit(val name: String?, val value: Int?)
+
+
+
+
 
 val client = KMongo.createClient() //get com.mongodb.MongoClient new instance
 val database = client.getDatabase("test") //normal java driver usage

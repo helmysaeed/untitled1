@@ -1,8 +1,19 @@
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Place
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.outlined.KeyboardArrowUp
+import androidx.compose.material.icons.outlined.ShoppingCart
+import androidx.compose.material.icons.rounded.ShoppingCart
+import androidx.compose.material.icons.sharp.ShoppingCart
+import androidx.compose.material.icons.twotone.ShoppingCart
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
@@ -12,6 +23,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.mongodb.client.model.Filters.eq
 import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.vector.DefaultTintBlendMode
 import com.itextpdf.kernel.pdf.PdfName.Print
 import com.mongodb.client.model.Filters
 import com.sun.tools.javac.Main
@@ -214,9 +226,12 @@ fun NavigatioPage(visablex: Boolean)
                         IconButton(onClick = { page.value = 1.0 }, Modifier)
 
                         {
-                            Text("1")
 
-                        }
+                            Text("1")
+                            Icon(imageVector = Icons.Outlined.ShoppingCart,Modifier.background(Color.LightGray))
+
+
+                            }
 
                         IconButton(onClick = { page.value = 2.0 }, Modifier)
 

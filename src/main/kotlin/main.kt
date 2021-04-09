@@ -21,6 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mongodb.client.MongoClient
 import com.mongodb.client.model.Filters
+import org.litote.kmongo.rename
 
 fun main() = Window {
 
@@ -38,10 +39,33 @@ fun main() = Window {
 
            RootPage(true)
 
+          //  name()
+
         }
 
     }
 
+
+
+
+}
+
+@Composable
+fun name(){
+    Column(Modifier.wrapContentWidth().fillMaxHeight().background(Color.White).padding(0.dp,10.dp,0.dp,0.dp))
+    {
+
+        TextField(TextFieldValue(""),onValueChange = {})
+        OutlinedTextField(TextFieldValue(),onValueChange = {})
+        Text("reham")
+        Text("20")
+        Button(onClick = {}){
+            Text("save")
+
+        }
+
+
+    }
 
 
 }
