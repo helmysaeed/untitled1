@@ -16,6 +16,7 @@ val client = KMongo.createClient() //get com.mongodb.MongoClient new instance
 val database = client.getDatabase("test") //normal java driver usage
 val col = database.getCollection<Users>()
 val colItem = database.getCollection<Item>()
+val colItemUnit = database.getCollection<Unit>()
 
 
 //KMongo extension method

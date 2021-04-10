@@ -1,5 +1,6 @@
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRowFor
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.Icon
@@ -159,7 +160,7 @@ fun inventoryForm()
 
 
         }
-
+        Spacer(Modifier.padding(4.dp))
 
         Button(onClick = {
             colItem.insertOne(Item(itemName.value.text))
@@ -183,12 +184,11 @@ fun unitForm()
 
         Box(Modifier.weight(1f))
         {
-            Text("1")
-
+           unitNameListInput()
         }
         Box(Modifier.weight(1f))
         {
-            Text("2")
+            unitNameGroupInput()
 
         }
 
@@ -205,26 +205,38 @@ fun unitForm()
 
 @Composable
 fun unitInput()
-{
-    val itemUnitName  = remember { mutableStateOf(TextFieldValue("")) }
-    OutlinedTextField(
-        value = itemUnitName.value,
-        onValueChange = { itemUnitName.value = it },
-        leadingIcon = {  },
-        trailingIcon = {
+{     val itemUnitList  = remember { mutableStateOf(col) }
+
+    Column {
+        val itemUnitName  = remember { mutableStateOf(TextFieldValue("")) }
+        OutlinedTextField(
+            value = itemUnitName.value,
+            onValueChange = { itemUnitName.value = it },
+            leadingIcon = {  },
+            trailingIcon = {
 
                 Icon(imageVector = Icons.Outlined.AddCircle, Modifier.clickable {
-                     itemUnitName.value = TextFieldValue("" )
+                    itemUnitName.value = TextFieldValue("" )
 
                 }.wrapContentWidth())
 
-        },
-        modifier = Modifier,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-        label = { Text(text = "item unit") },
-        placeholder = { Text(text = "choes item unit") },
+            },
+            modifier = Modifier,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            label = { Text(text = "item unit") },
+            placeholder = { Text(text = "choes item unit") },
 
-        )
+            )
+
+
+        LazyRowFor()
+        {
+            Text("f")
+        }
+
+
+    }
+
 
 }
 
@@ -253,6 +265,30 @@ fun unitNameGroupInput()
 
 }
 
+@Composable
+fun unitNameListInput()
+{
+    val itemUnitName  = remember { mutableStateOf(TextFieldValue("")) }
+    OutlinedTextField(
+        value = itemUnitName.value,
+        onValueChange = { itemUnitName.value = it },
+        leadingIcon = {  },
+        trailingIcon = {
+
+            Icon(imageVector = Icons.Outlined.AddCircle, Modifier.clickable {
+                itemUnitName.value = TextFieldValue("" )
+
+            }.wrapContentWidth())
+
+        },
+        modifier = Modifier,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+        label = { Text(text = "item unit") },
+        placeholder = { Text(text = "choes item unit") },
+
+        )
+
+}
 
 
 
