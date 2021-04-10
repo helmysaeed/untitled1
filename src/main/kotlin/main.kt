@@ -1,11 +1,9 @@
 import androidx.compose.desktop.Window
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
@@ -22,12 +20,14 @@ import androidx.compose.ui.unit.dp
 import com.mongodb.client.MongoClient
 import com.mongodb.client.model.Filters
 import org.litote.kmongo.rename
+import javax.swing.Scrollable
 
 fun main() = Window {
 
 
     //  col.insertOne(Users("Luke Skywalker33", 19))
 
+    val state = rememberScrollState(0f)
 
   //   val ob = dbsx()
     MaterialTheme {
@@ -37,7 +37,12 @@ fun main() = Window {
         )
         {
 
-           RootPage(true)
+
+                RootPage(true)
+
+            }
+
+
 
           //  name()
 
@@ -48,7 +53,7 @@ fun main() = Window {
 
 
 
-}
+
 
 @Composable
 fun name(){

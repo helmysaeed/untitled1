@@ -1,5 +1,7 @@
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.foundation.lazy.LazyColumnForIndexed
 import androidx.compose.foundation.lazy.LazyRowFor
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -26,6 +28,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.MutableSharedFlow
+import org.litote.kmongo.index
 
 
 @Composable
@@ -205,9 +208,12 @@ fun unitForm()
 
 @Composable
 fun unitInput()
-{     val itemUnitList  = remember { mutableStateOf(col) }
 
-    Column {
+{       val state = rememberScrollState(0f)
+
+    val itemUnitList  = remember { mutableStateOf(colItemUnit.find().cursor()) }
+
+    Column (){
         val itemUnitName  = remember { mutableStateOf(TextFieldValue("")) }
         OutlinedTextField(
             value = itemUnitName.value,
@@ -229,10 +235,11 @@ fun unitInput()
             )
 
 
-        LazyRowFor()
-        {
-            Text("f")
-        }
+          while (itemUnitList.value.hasNext())
+          {
+
+              Text(itemUnitList.value.next().name.toString())
+          }
 
 
     }

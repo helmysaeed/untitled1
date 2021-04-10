@@ -1,9 +1,10 @@
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.MoreVert
@@ -170,7 +171,8 @@ fun NavigatioPage(visablex: Boolean)
 {
     var text by remember { mutableStateOf("Hello, World!") }
     var expanded by remember { mutableStateOf(false) }
-
+    val state = rememberScrollState(0f)
+    val stateVertical = rememberScrollState(0f)
     val page = remember { mutableStateOf(0.0) }
     val visable = remember { mutableStateOf(visablex) }
     if (visable.value==true)
@@ -245,6 +247,8 @@ fun NavigatioPage(visablex: Boolean)
             }
 
         }
+
+
         }
 
 
