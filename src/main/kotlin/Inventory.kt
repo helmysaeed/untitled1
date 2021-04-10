@@ -228,6 +228,30 @@ fun unitInput()
 
 }
 
+@Composable
+fun unitNameGroupInput()
+{
+    val itemUnitName  = remember { mutableStateOf(TextFieldValue("")) }
+    OutlinedTextField(
+        value = itemUnitName.value,
+        onValueChange = { itemUnitName.value = it },
+        leadingIcon = {  },
+        trailingIcon = {
+
+            Icon(imageVector = Icons.Outlined.AddCircle, Modifier.clickable {
+                itemUnitName.value = TextFieldValue("" )
+
+            }.wrapContentWidth())
+
+        },
+        modifier = Modifier,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+        label = { Text(text = "item unit") },
+        placeholder = { Text(text = "choes item unit") },
+
+        )
+
+}
 
 
 
