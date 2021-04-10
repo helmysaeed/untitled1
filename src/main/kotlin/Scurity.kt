@@ -221,7 +221,7 @@ fun NavigatioPage(visablex: Boolean)
                     )
                 {
 
-                    Column {
+                    Column(Modifier.align(Alignment.CenterVertically).wrapContentHeight()) {
 
                         IconButton(onClick = { page.value = 1.0 }, Modifier)
 
