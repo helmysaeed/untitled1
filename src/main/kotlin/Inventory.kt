@@ -1,8 +1,6 @@
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumnFor
-import androidx.compose.foundation.lazy.LazyColumnForIndexed
-import androidx.compose.foundation.lazy.LazyRowFor
+import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.Icon
@@ -32,9 +30,11 @@ import androidx.compose.ui.unit.dp
 import com.mongodb.Block
 import kotlinx.coroutines.flow.MutableSharedFlow
 import org.bson.Document
+import org.jetbrains.skija.paragraph.TextBox
 import org.litote.kmongo.index
 
 
+@ExperimentalFoundationApi
 @Composable
 fun inventoryForm()
 {
@@ -201,6 +201,7 @@ fun inventoryForm()
 }
 
 
+@ExperimentalFoundationApi
 @Composable
 fun unitForm() {
     Row(Modifier.fillMaxWidth().wrapContentHeight()) {
@@ -227,20 +228,25 @@ fun unitForm() {
 }
 
 
+@ExperimentalFoundationApi
 @Composable
 fun unitInput()
 
 {
-    Card(modifier = Modifier.wrapContentWidth().padding(8.dp).shadow(4.dp),
-        shape = MaterialTheme.shapes.large,
-        elevation = 2.dp
-    )
-    {
-    val state = rememberScrollState(0f)
+        LazyScrollable()
 
-    val itemUnitList  = remember { mutableStateOf(colItemUnit.find().into( mutableListOf())) }
 
-    Column () {
+
+}
+
+@ExperimentalFoundationApi
+@Composable
+fun LazyScrollable() {
+
+    val itemUnitList = remember { mutableStateOf(colItemUnit.find().into(mutableListOf())) }
+    val stateVertical = rememberScrollState(0F)
+    val stateHorizontal = rememberScrollState(0F)
+   /* Box() {
         val itemUnitName = remember { mutableStateOf(TextFieldValue("")) }
         OutlinedTextField(
             value = itemUnitName.value,
@@ -249,6 +255,8 @@ fun unitInput()
             trailingIcon = {
 
                 Icon(imageVector = Icons.Outlined.AddCircle, Modifier.clickable {
+                    colItemUnit.insertOne(ItemUnit(itemUnitName.value.text.toString()))
+                    itemUnitList.value.add(ItemUnit(itemUnitName.value.text.toString()))
                     itemUnitName.value = TextFieldValue("")
 
                 }.wrapContentWidth().padding(4.dp))
@@ -262,18 +270,49 @@ fun unitInput()
             )
 
 
-         LazyColumnForIndexed(itemUnitList.value)
-         { index, item ->
-           Text( ""+item.name)
 
-         }
+    }*/
+
+
+
+
+
+
+    Box(
+        modifier = Modifier.fillMaxSize()
+            .background(color = Color(180, 180, 180))
+            .padding(10.dp)
+    ) {
+
+        val state = rememberLazyListState()
+        val itemCount = 1000
+
+        LazyColumn(Modifier.fillMaxSize().padding(end = 12.dp), state) {
+            items(itemUnitList.value) { x ->
+                Text("Item #${x.name}")
+                Spacer(modifier = Modifier.height(5.dp))
+            }
+        }
+        VerticalScrollbar(
+            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+            adapter = rememberScrollbarAdapter(
+                scrollState = state,
+                itemCount = itemUnitList.value.size,
+                averageItemSize = 37.dp // TextBox height + Spacer height
+            )
+        )
     }
 
 
     }
 
+
+
+
+fun TextBox(s: String) {
 
 }
+
 
 @Composable
 fun unitNameGroupInput() {

@@ -189,8 +189,9 @@ fun NavigatioPage(visablex: Boolean)
                 ) {
 
                     if (page.value.equals(Pages.inventorypage.pagevalu)) {
-                        inventoryForm()
-
+                       // inventoryForm()
+                        unitInput()
+                     //  LazyScrollable()
                     }
 
                 }
