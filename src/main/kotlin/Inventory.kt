@@ -25,9 +25,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.input.key.Key.Companion.Calendar
+import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.mongodb.Block
 import kotlinx.coroutines.flow.MutableSharedFlow
+import org.bson.Document
 import org.litote.kmongo.index
 
 
@@ -50,112 +54,125 @@ fun inventoryForm()
       {
 
 
-    Column(Modifier.wrapContentWidth(align = Alignment.CenterHorizontally).padding(4.dp)) {
-        OutlinedTextField(
-            value = itemName.value,
-            onValueChange = { itemName.value = it },
+    Column (Modifier.wrapContentWidth().padding(4.dp),verticalArrangement = Arrangement.Center ,horizontalAlignment = Alignment.CenterHorizontally) {
 
-
-            label = { Text("itemName") },
-            placeholder = { Text("enter name") }
-        )
-
-        Spacer(Modifier.padding(4.dp))
-
-
-        OutlinedTextField(
-            value = itemType.value,
-            onValueChange = { itemType.value = it },
-
-            leadingIcon = {  },
-            trailingIcon = {
-                if (expanded.value.equals(true))
-                {
-                    Icon(imageVector = Icons.Outlined.KeyboardArrowUp, Modifier.clickable {
-                        expanded.value = false
-                        // itemName.value = TextFieldValue("" + expanded.value)
-
-                    }.wrapContentWidth())
-                }else {
-                    Icon(imageVector = Icons.Outlined.ArrowDropDown, Modifier.clickable {
-                        expanded.value = true
-                        // itemName.value = TextFieldValue("" + expanded.value)
-
-                    })
-                }
-            },
-            modifier = Modifier
-
-                ,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text(text = "item type") },
-            placeholder = { Text(text = "choes item type") },
-
-            )
-        Spacer(Modifier.padding(4.dp))
-        if (expanded.value==true)
+        Box(Modifier.weight(1f))
         {
+            Column() {
 
-            Card(modifier = Modifier.wrapContentWidth().padding(4.dp).align(Alignment.CenterHorizontally).shadow(4.dp),
-                shape = MaterialTheme.shapes.medium,
-                elevation = 2.dp
-            )
-            {
-                Box( Modifier.align(Alignment.CenterHorizontally).padding(4.dp))
-                {
-                    Column {
-                        Text(itemTypeList.get(0).name.toString(),Modifier.clickable {
-                            itemType.value=TextFieldValue( itemTypeList.get(0).name.toString())
-                            expanded.value = false
-                        })
 
-                        Divider(Modifier.padding(1.dp).width(300.dp))
+                OutlinedTextField(
+                    modifier = Modifier.align(Alignment.End)
+                    ,
+                    value = itemName.value,
+                    onValueChange = { itemName.value = it },
 
-                        Text(itemTypeList.get(1).name.toString(),Modifier.clickable {
-                            itemType.value=TextFieldValue( itemTypeList.get(1).name.toString())
-                            expanded.value = false
-                        })
+
+
+                    label = { Text("itemName") },
+                    placeholder = { Text("enter name")
+
+
+
                     }
+                )
 
+                Spacer(Modifier.padding(4.dp))
+
+
+                OutlinedTextField(
+                    value = itemType.value,
+                    onValueChange = { itemType.value = it },
+
+                    leadingIcon = { },
+                    trailingIcon = {
+                        if (expanded.value.equals(true)) {
+                            Icon(imageVector = Icons.Outlined.KeyboardArrowUp, Modifier.clickable {
+                                expanded.value = false
+                                // itemName.value = TextFieldValue("" + expanded.value)
+
+                            }.wrapContentWidth())
+                        } else {
+                            Icon(imageVector = Icons.Outlined.ArrowDropDown, Modifier.clickable {
+                                expanded.value = true
+                                // itemName.value = TextFieldValue("" + expanded.value)
+
+                            })
+                        }
+                    },
+                    modifier = Modifier,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    label = { Text(text = "item type") },
+                    placeholder = { Text(text = "choes item type") },
+
+                    )
+                Spacer(Modifier.padding(4.dp))
+                if (expanded.value == true) {
+
+                    Card(
+                        modifier = Modifier.wrapContentWidth().padding(4.dp)
+                            .shadow(4.dp),
+                        shape = MaterialTheme.shapes.medium,
+                        elevation = 2.dp
+                    )
+                    {
+                        Box(Modifier.padding(4.dp))
+                        {
+                            Column {
+                                Text(itemTypeList.get(0).name.toString(), Modifier.clickable {
+                                    itemType.value = TextFieldValue(itemTypeList.get(0).name.toString())
+                                    expanded.value = false
+                                })
+
+                                Divider(Modifier.padding(1.dp).width(300.dp))
+
+                                Text(itemTypeList.get(1).name.toString(), Modifier.clickable {
+                                    itemType.value = TextFieldValue(itemTypeList.get(1).name.toString())
+                                    expanded.value = false
+                                })
+                            }
+
+                        }
+
+
+                    }
                 }
 
 
+                OutlinedTextField(
+                    value = itemUnit.value,
+                    onValueChange = { itemUnit.value = it },
+                    leadingIcon = { },
+                    trailingIcon = {
+                        if (expandedItemUnit.value.equals(true)) {
+                            Icon(imageVector = Icons.Outlined.KeyboardArrowUp, Modifier.clickable {
+                                expandedItemUnit.value = false
+                                // itemName.value = TextFieldValue("" + expanded.value)
+
+                            }.wrapContentWidth())
+                        } else {
+                            Icon(imageVector = Icons.Outlined.ArrowDropDown, Modifier.clickable {
+                                expandedItemUnit.value = true
+                                // itemName.value = TextFieldValue("" + expanded.value)
+
+                            })
+                        }
+                    },
+                    modifier = Modifier,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    label = { Text(text = "item unit") },
+                    placeholder = { Text(text = "choes item unit") },
+
+                    )
+
+
+
+
+                Spacer(Modifier.padding(4.dp))
             }
         }
-
-
-        OutlinedTextField(
-            value = itemUnit.value,
-            onValueChange = { itemUnit.value = it },
-            leadingIcon = {  },
-            trailingIcon = {
-                if (expandedItemUnit.value.equals(true))
-                {
-                    Icon(imageVector = Icons.Outlined.KeyboardArrowUp, Modifier.clickable {
-                        expandedItemUnit.value = false
-                        // itemName.value = TextFieldValue("" + expanded.value)
-
-                    }.wrapContentWidth())
-                }else {
-                    Icon(imageVector = Icons.Outlined.ArrowDropDown, Modifier.clickable {
-                        expandedItemUnit.value = true
-                        // itemName.value = TextFieldValue("" + expanded.value)
-
-                    })
-                }
-            },
-            modifier = Modifier,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text(text = "item unit") },
-            placeholder = { Text(text = "choes item unit") },
-
-            )
-
-
-
-
-        Spacer(Modifier.padding(4.dp))
-
+        Box(Modifier.weight(1f))
+        {
         if (expandedItemUnit.value==true)
         {
 
@@ -164,15 +181,19 @@ fun inventoryForm()
 
         }
         Spacer(Modifier.padding(4.dp))
+}
 
-        Button(onClick = {
-            colItem.insertOne(Item(itemName.value.text))
-            itemName.value = TextFieldValue("")
+          Box(Modifier.weight(0.25f).align(Alignment.CenterHorizontally))
+          {
+              Button(onClick = {
+                  colItem.insertOne(Item(itemName.value.text))
+                  itemName.value = TextFieldValue("")
 
-        },Modifier.align(Alignment.CenterHorizontally))
-        {
-            Text("save")
-        }
+              }, Modifier)
+              {
+                  Text("save")
+              }
+          }
 
     }
 
@@ -181,13 +202,13 @@ fun inventoryForm()
 
 
 @Composable
-fun unitForm()
-{
-    Row {
+fun unitForm() {
+    Row(Modifier.fillMaxWidth().wrapContentHeight()) {
+
 
         Box(Modifier.weight(1f))
         {
-           unitNameListInput()
+            unitInput()
         }
         Box(Modifier.weight(1f))
         {
@@ -198,33 +219,39 @@ fun unitForm()
         Box(Modifier.weight(1f))
         {
 
-              unitInput()
+            unitNameListInput()
 
 
         }
     }
-
 }
+
 
 @Composable
 fun unitInput()
 
-{       val state = rememberScrollState(0f)
+{
+    Card(modifier = Modifier.wrapContentWidth().padding(8.dp).shadow(4.dp),
+        shape = MaterialTheme.shapes.large,
+        elevation = 2.dp
+    )
+    {
+    val state = rememberScrollState(0f)
 
-    val itemUnitList  = remember { mutableStateOf(colItemUnit.find().cursor()) }
+    val itemUnitList  = remember { mutableStateOf(colItemUnit.find().into( mutableListOf())) }
 
-    Column (){
-        val itemUnitName  = remember { mutableStateOf(TextFieldValue("")) }
+    Column () {
+        val itemUnitName = remember { mutableStateOf(TextFieldValue("")) }
         OutlinedTextField(
             value = itemUnitName.value,
             onValueChange = { itemUnitName.value = it },
-            leadingIcon = {  },
+            leadingIcon = { },
             trailingIcon = {
 
                 Icon(imageVector = Icons.Outlined.AddCircle, Modifier.clickable {
-                    itemUnitName.value = TextFieldValue("" )
+                    itemUnitName.value = TextFieldValue("")
 
-                }.wrapContentWidth())
+                }.wrapContentWidth().padding(4.dp))
 
             },
             modifier = Modifier,
@@ -235,11 +262,12 @@ fun unitInput()
             )
 
 
-          while (itemUnitList.value.hasNext())
-          {
+         LazyColumnForIndexed(itemUnitList.value)
+         { index, item ->
+           Text( ""+item.name)
 
-              Text(itemUnitList.value.next().name.toString())
-          }
+         }
+    }
 
 
     }
@@ -248,60 +276,84 @@ fun unitInput()
 }
 
 @Composable
-fun unitNameGroupInput()
-{
-    val itemUnitName  = remember { mutableStateOf(TextFieldValue("")) }
-    OutlinedTextField(
-        value = itemUnitName.value,
-        onValueChange = { itemUnitName.value = it },
-        leadingIcon = {  },
-        trailingIcon = {
+fun unitNameGroupInput() {
 
-            Icon(imageVector = Icons.Outlined.AddCircle, Modifier.clickable {
-                itemUnitName.value = TextFieldValue("" )
+    Card(
+        modifier = Modifier.wrapContentWidth().padding(8.dp).shadow(4.dp),
+        shape = MaterialTheme.shapes.large,
+        elevation = 2.dp
+    )
+    {
+        val state = rememberScrollState(0f)
 
-            }.wrapContentWidth())
+        val itemUnitList = remember { mutableStateOf(colItemUnit.find().cursor()) }
 
-        },
-        modifier = Modifier,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-        label = { Text(text = "item unit") },
-        placeholder = { Text(text = "choes item unit") },
+        Column() {
+            val itemUnitName = remember { mutableStateOf(TextFieldValue("")) }
+            OutlinedTextField(
+                value = itemUnitName.value,
+                onValueChange = { itemUnitName.value = it },
+                leadingIcon = { },
+                trailingIcon = {
 
-        )
+                    Icon(imageVector = Icons.Outlined.AddCircle, Modifier.clickable {
+                        itemUnitName.value = TextFieldValue("")
 
+                    }.wrapContentWidth().padding(4.dp))
+
+                },
+                modifier = Modifier,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                label = { Text(text = "item unit") },
+                placeholder = { Text(text = "choes item unit") },
+
+                )
+
+        }
+
+    }
 }
+
 
 @Composable
-fun unitNameListInput()
-{
-    val itemUnitName  = remember { mutableStateOf(TextFieldValue("")) }
-    OutlinedTextField(
-        value = itemUnitName.value,
-        onValueChange = { itemUnitName.value = it },
-        leadingIcon = {  },
-        trailingIcon = {
+fun unitNameListInput() {
 
-            Icon(imageVector = Icons.Outlined.AddCircle, Modifier.clickable {
-                itemUnitName.value = TextFieldValue("" )
+    Card(
+        modifier = Modifier.wrapContentWidth().padding(8.dp).shadow(4.dp),
+        shape = MaterialTheme.shapes.large,
+        elevation = 2.dp
+    )
+    {
+        val state = rememberScrollState(0f)
 
-            }.wrapContentWidth())
+        val itemUnitList = remember { mutableStateOf(colItemUnit.find().spliterator()) }
 
-        },
-        modifier = Modifier,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-        label = { Text(text = "item unit") },
-        placeholder = { Text(text = "choes item unit") },
+        Column() {
+            val itemUnitName = remember { mutableStateOf(TextFieldValue("")) }
+            OutlinedTextField(
+                value = itemUnitName.value,
+                onValueChange = { itemUnitName.value = it },
+                leadingIcon = { },
+                trailingIcon = {
 
-        )
+                    Icon(imageVector = Icons.Outlined.AddCircle, Modifier.clickable {
+                        itemUnitName.value = TextFieldValue("")
+
+                    }.wrapContentWidth().padding(4.dp))
+
+                },
+                modifier = Modifier,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                label = { Text(text = "item unit") },
+                placeholder = { Text(text = "choes item unit") },
+
+                )
+
+        }
+
+    }
 
 }
-
-
-
-
-
-
 
 
 
