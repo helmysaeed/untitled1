@@ -10,10 +10,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.AddCircle
 import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.material.icons.outlined.KeyboardArrowUp
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.input.TextFieldValue
 import org.litote.kmongo.text
@@ -252,8 +249,29 @@ Column {
 
 
 
+    Column() {
+        val itemUnitName = remember { mutableStateOf(TextFieldValue("")) }
+        OutlinedTextField(
+            value = itemUnitName.value,
+            onValueChange = { itemUnitName.value = it },
+            leadingIcon = { },
+            trailingIcon = {
 
+                Icon(imageVector = Icons.Outlined.AddCircle, Modifier.clickable {
+                    colItemUnit.insertOne(ItemUnit(itemUnitName.value.text))
+                    itemUnitList.value.add(ItemUnit(itemUnitName.value.text))
+                    itemUnitList.value=colItemUnit.find().into(mutableListOf())
+                    itemUnitName.value = TextFieldValue("")
 
+                }.wrapContentWidth().padding(4.dp))
+
+            },
+            modifier = Modifier,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            label = { Text(text = "item unit") },
+            placeholder = { Text(text = "choes item unit") },
+
+            )
     Box(
         modifier = Modifier.fillMaxSize()
             .background(color = Color(180, 180, 180))
@@ -263,12 +281,13 @@ Column {
         val state = rememberLazyListState()
         val itemCount = 1000
 
-        LazyColumn(Modifier.fillMaxSize().padding(end = 12.dp), state) {
-            items(itemUnitList.value) { x ->
+        LazyColumnForIndexed(itemUnitList.value,Modifier.fillMaxSize().padding(end = 12.dp), state)
+             {
+                    index, x ->
                 Text("Item #${x.name}")
                 Spacer(modifier = Modifier.height(5.dp))
             }
-        }
+
         VerticalScrollbar(
             modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
             adapter = rememberScrollbarAdapter(
@@ -279,6 +298,11 @@ Column {
         )
     }
 
+
+
+
+
+    }
 
     }
 

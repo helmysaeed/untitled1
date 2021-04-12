@@ -22,6 +22,7 @@ import com.mongodb.client.model.Filters
 import org.litote.kmongo.rename
 import javax.swing.Scrollable
 
+@ExperimentalFoundationApi
 fun main() = Window {
 
 
