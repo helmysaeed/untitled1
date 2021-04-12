@@ -42,6 +42,7 @@ import javax.swing.text.NavigationFilter
 val useslist =      col.find().iterator()
 
 
+@ExperimentalFoundationApi
 @Composable
 fun RootPage(visablex: Boolean=false ){
 
@@ -63,6 +64,7 @@ fun RootPage(visablex: Boolean=false ){
 
 
 
+@ExperimentalFoundationApi
 @Composable
 fun LoginForm(visablex: Boolean)
 {
@@ -166,6 +168,7 @@ fun LoginForm(visablex: Boolean)
 
 
 }
+@ExperimentalFoundationApi
 @Composable
 fun NavigatioPage(visablex: Boolean)
 {

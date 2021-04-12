@@ -246,33 +246,9 @@ fun LazyScrollable() {
     val itemUnitList = remember { mutableStateOf(colItemUnit.find().into(mutableListOf())) }
     val stateVertical = rememberScrollState(0F)
     val stateHorizontal = rememberScrollState(0F)
-   /* Box() {
-        val itemUnitName = remember { mutableStateOf(TextFieldValue("")) }
-        OutlinedTextField(
-            value = itemUnitName.value,
-            onValueChange = { itemUnitName.value = it },
-            leadingIcon = { },
-            trailingIcon = {
-
-                Icon(imageVector = Icons.Outlined.AddCircle, Modifier.clickable {
-                    colItemUnit.insertOne(ItemUnit(itemUnitName.value.text.toString()))
-                    itemUnitList.value.add(ItemUnit(itemUnitName.value.text.toString()))
-                    itemUnitName.value = TextFieldValue("")
-
-                }.wrapContentWidth().padding(4.dp))
-
-            },
-            modifier = Modifier,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text(text = "item unit") },
-            placeholder = { Text(text = "choes item unit") },
-
-            )
 
 
-
-    }*/
-
+Column {
 
 
 
@@ -306,7 +282,7 @@ fun LazyScrollable() {
 
     }
 
-
+}
 
 
 fun TextBox(s: String) {
