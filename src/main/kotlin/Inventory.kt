@@ -29,6 +29,10 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import org.bson.Document
 import org.jetbrains.skija.paragraph.TextBox
 import org.litote.kmongo.index
+import com.mongodb.BasicDBObject
+
+
+
 
 
 @ExperimentalFoundationApi
@@ -240,7 +244,9 @@ fun unitInput()
 @Composable
 fun LazyScrollable() {
 
-    val itemUnitList = remember { mutableStateOf(colItemUnit.find().into(mutableListOf())) }
+
+
+    val itemUnitList = remember { mutableStateOf(colItemUnit.find().sort(BasicDBObject("_id", -1)).into(mutableListOf())) }
     val stateVertical = rememberScrollState(0F)
     val stateHorizontal = rememberScrollState(0F)
 
@@ -259,8 +265,8 @@ Column {
 
                 Icon(imageVector = Icons.Outlined.AddCircle, Modifier.clickable {
                     colItemUnit.insertOne(ItemUnit(itemUnitName.value.text))
-                    itemUnitList.value.add(ItemUnit(itemUnitName.value.text))
-                    itemUnitList.value=colItemUnit.find().into(mutableListOf())
+                    itemUnitList.value.add(0,ItemUnit(itemUnitName.value.text))
+                   // itemUnitList.value=colItemUnit.find().into(mutableListOf())
                     itemUnitName.value = TextFieldValue("")
 
                 }.wrapContentWidth().padding(4.dp))
