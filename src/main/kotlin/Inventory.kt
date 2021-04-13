@@ -255,7 +255,7 @@ Column {
 
 
 
-    Column() {
+    Column( Modifier, Arrangement.Center, Alignment.CenterHorizontally) {
         val itemUnitName = remember { mutableStateOf(TextFieldValue("")) }
         OutlinedTextField(
             value = itemUnitName.value,
@@ -280,14 +280,13 @@ Column {
             )
     Box(
         modifier = Modifier.fillMaxSize()
-            .background(color = Color(180, 180, 180))
-            .padding(10.dp)
+            .padding(10.dp).border(border = BorderStroke(0.5.dp, MaterialTheme.colors.primary))
     ) {
 
         val state = rememberLazyListState()
         val itemCount = 1000
 
-        LazyColumnForIndexed(itemUnitList.value,Modifier.fillMaxSize().padding(end = 12.dp), state)
+        LazyColumnForIndexed(itemUnitList.value,Modifier.fillMaxSize().padding(end = 12.dp), state, horizontalAlignment = Alignment.CenterHorizontally)
              {
                     index, x ->
                 Text("Item #${x.name}")
@@ -295,7 +294,7 @@ Column {
             }
 
         VerticalScrollbar(
-            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+            modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd),
             adapter = rememberScrollbarAdapter(
                 scrollState = state,
                 itemCount = itemUnitList.value.size,
