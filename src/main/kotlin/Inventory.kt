@@ -6,29 +6,17 @@ import androidx.compose.material.*
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.AddCircle
 import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.input.TextFieldValue
-import org.litote.kmongo.text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.input.key.Key.Companion.Calendar
-import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import com.mongodb.Block
-import kotlinx.coroutines.flow.MutableSharedFlow
-import org.bson.Document
-import org.jetbrains.skija.paragraph.TextBox
-import org.litote.kmongo.index
 import com.mongodb.BasicDBObject
 
 
@@ -200,8 +188,6 @@ fun inventoryForm()
 
       }
 }
-
-
 @ExperimentalFoundationApi
 @Composable
 fun unitForm() {
@@ -221,7 +207,7 @@ fun unitForm() {
         Box(Modifier.weight(1f))
         {
 
-            unitNameListInput()
+            unitInput()
 
 
         }
@@ -234,15 +220,7 @@ fun unitForm() {
 fun unitInput()
 
 {
-        LazyScrollable()
 
-
-
-}
-
-@ExperimentalFoundationApi
-@Composable
-fun LazyScrollable() {
 
 
 
@@ -251,153 +229,250 @@ fun LazyScrollable() {
     val stateHorizontal = rememberScrollState(0F)
 
 
-Column {
+    Column {
 
 
 
-    Column( Modifier, Arrangement.Center, Alignment.CenterHorizontally) {
-        val itemUnitName = remember { mutableStateOf(TextFieldValue("")) }
-        OutlinedTextField(
-            value = itemUnitName.value,
-            onValueChange = { itemUnitName.value = it },
-            leadingIcon = { },
-            trailingIcon = {
+        Column( Modifier, Arrangement.Center, Alignment.CenterHorizontally) {
+            val itemUnitName = remember { mutableStateOf(TextFieldValue("")) }
+            OutlinedTextField(
+                value = itemUnitName.value,
+                onValueChange = { itemUnitName.value = it },
+                leadingIcon = { },
+                trailingIcon = {
 
-                Icon(imageVector = Icons.Outlined.AddCircle, Modifier.clickable {
-                    colItemUnit.insertOne(ItemUnit(itemUnitName.value.text))
-                    itemUnitList.value.add(0,ItemUnit(itemUnitName.value.text))
-                   // itemUnitList.value=colItemUnit.find().into(mutableListOf())
-                    itemUnitName.value = TextFieldValue("")
+                    Icon(imageVector = Icons.Outlined.AddCircle, Modifier.clickable {
+                        colItemUnit.insertOne(ItemUnit(itemUnitName.value.text))
+                        itemUnitList.value.add(0,ItemUnit(itemUnitName.value.text))
+                        // itemUnitList.value=colItemUnit.find().into(mutableListOf())
+                        itemUnitName.value = TextFieldValue("")
 
-                }.wrapContentWidth().padding(4.dp))
+                    }.wrapContentWidth().padding(4.dp))
 
-            },
-            modifier = Modifier,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text(text = "item unit") },
-            placeholder = { Text(text = "choes item unit") },
+                },
+                modifier = Modifier,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                label = { Text(text = " unit") },
+                placeholder = { Text(text = "choes  unit") },
 
-            )
-    Box(
-        modifier = Modifier.fillMaxSize()
-            .padding(10.dp).border(border = BorderStroke(0.5.dp, MaterialTheme.colors.primary))
-    ) {
+                )
+            Box(
+                modifier = Modifier.fillMaxSize()
+                    .padding(10.dp).border(border = BorderStroke(0.5.dp, MaterialTheme.colors.primary))
+            ) {
 
-        val state = rememberLazyListState()
-        val itemCount = 1000
+                val state = rememberLazyListState()
+                val itemCount = 1000
 
-        LazyColumnForIndexed(itemUnitList.value,Modifier.fillMaxSize().padding(end = 12.dp), state, horizontalAlignment = Alignment.CenterHorizontally)
-             {
-                    index, x ->
-                Text("Item #${x.name}")
-                Spacer(modifier = Modifier.height(5.dp))
+                LazyColumnForIndexed(itemUnitList.value,Modifier.fillMaxSize().padding(end = 12.dp), state, horizontalAlignment = Alignment.CenterHorizontally)
+                {
+                        index, x ->
+                    Text("Item #${x.name}")
+                    Spacer(modifier = Modifier.height(5.dp))
+                }
+
+                VerticalScrollbar(
+                    modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd),
+                    adapter = rememberScrollbarAdapter(
+                        scrollState = state,
+                        itemCount = itemUnitList.value.size,
+                        averageItemSize = 37.dp // TextBox height + Spacer height
+                    )
+                )
             }
 
-        VerticalScrollbar(
-            modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd),
-            adapter = rememberScrollbarAdapter(
-                scrollState = state,
-                itemCount = itemUnitList.value.size,
-                averageItemSize = 37.dp // TextBox height + Spacer height
-            )
-        )
-    }
 
 
 
 
+        }
 
     }
 
+
+}
+
+@ExperimentalFoundationApi
+@Composable
+fun itemInput()
+
+{
+
+
+
+
+    val itemtList = remember { mutableStateOf(colItem.find().sort(BasicDBObject("_id", -1)).into(mutableListOf())) }
+    val stateVertical = rememberScrollState(0F)
+    val stateHorizontal = rememberScrollState(0F)
+
+
+    Column {
+
+
+
+        Column( Modifier, Arrangement.Center, Alignment.CenterHorizontally) {
+            val itemName = remember { mutableStateOf(TextFieldValue("")) }
+            OutlinedTextField(
+                value = itemName.value,
+                onValueChange = { itemName.value = it },
+                leadingIcon = { },
+                trailingIcon = {
+
+                    Icon(imageVector = Icons.Outlined.AddCircle, Modifier.clickable {
+                        colItem.insertOne(Item(itemName.value.text))
+                        itemtList.value.add(0,Item(itemName.value.text))
+                        // itemUnitList.value=colItemUnit.find().into(mutableListOf())
+                        itemName.value = TextFieldValue("")
+
+                    }.wrapContentWidth().padding(4.dp))
+
+                },
+                modifier = Modifier,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                label = { Text(text = "item name") },
+                placeholder = { Text(text = "choes item name") },
+
+                )
+            Box(
+                modifier = Modifier.fillMaxSize()
+                    .padding(10.dp).border(border = BorderStroke(0.5.dp, MaterialTheme.colors.primary))
+            ) {
+
+                val state = rememberLazyListState()
+                val itemCount = 1000
+
+                LazyColumnForIndexed(itemtList.value,Modifier.fillMaxSize().padding(end = 12.dp), state, horizontalAlignment = Alignment.CenterHorizontally)
+                {
+                        index, x ->
+                    Text("Item #${x.name}")
+                    Spacer(modifier = Modifier.height(5.dp))
+                }
+
+                VerticalScrollbar(
+                    modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd),
+                    adapter = rememberScrollbarAdapter(
+                        scrollState = state,
+                        itemCount = itemtList.value.size,
+                        averageItemSize = 37.dp // TextBox height + Spacer height
+                    )
+                )
+            }
+
+
+
+
+
+        }
+
     }
+
 
 }
 
 
-fun TextBox(s: String) {
 
-}
-
-
+@ExperimentalFoundationApi
 @Composable
 fun unitNameGroupInput() {
+    val itemUnitGroupList = remember { mutableStateOf(colItemUnitGroup.find().into(mutableListOf())) }
 
-    Card(
-        modifier = Modifier.wrapContentWidth().padding(8.dp).shadow(4.dp),
-        shape = MaterialTheme.shapes.large,
-        elevation = 2.dp
-    )
-    {
-        val state = rememberScrollState(0f)
 
-        val itemUnitList = remember { mutableStateOf(colItemUnit.find().cursor()) }
+         Row(Modifier.fillMaxWidth(),Arrangement.SpaceAround) {
+             Row(Modifier.weight(1f)) {
+                 Column(Modifier.wrapContentSize()) {
+                     val unitNameGroup = remember { mutableStateOf(TextFieldValue("")) }
+                     OutlinedTextField(
+                         value = unitNameGroup.value,
+                         onValueChange = { unitNameGroup.value = it },
+                         leadingIcon = { },
+                         trailingIcon = {
 
-        Column() {
-            val itemUnitName = remember { mutableStateOf(TextFieldValue("")) }
-            OutlinedTextField(
-                value = itemUnitName.value,
-                onValueChange = { itemUnitName.value = it },
-                leadingIcon = { },
-                trailingIcon = {
+                             Icon(imageVector = Icons.Outlined.AddCircle, Modifier.clickable {
+                                 colItemUnitGroup.insertOne(ItemUnitGroup(name = unitNameGroup.value.text))
+                                 itemUnitGroupList.value.add(ItemUnitGroup(name = unitNameGroup.value.text))
+                                 unitNameGroup.value = TextFieldValue("")
 
-                    Icon(imageVector = Icons.Outlined.AddCircle, Modifier.clickable {
-                        itemUnitName.value = TextFieldValue("")
+                             }.wrapContentWidth().padding(4.dp))
 
-                    }.wrapContentWidth().padding(4.dp))
+                         },
+                         modifier = Modifier,
+                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                         label = { Text(text = " unit group") },
+                         placeholder = { Text(text = "choes unit group") },
 
-                },
-                modifier = Modifier,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                label = { Text(text = "item unit") },
-                placeholder = { Text(text = "choes item unit") },
+                         )
 
-                )
 
-        }
+                     Box(
+                         modifier = Modifier.wrapContentWidth()
+                             .padding(10.dp).border(border = BorderStroke(0.5.dp, MaterialTheme.colors.primary))
+                     ) {
+
+                         val state = rememberLazyListState()
+
+                         LazyColumnForIndexed(
+                             itemUnitGroupList.value,
+                             Modifier.fillMaxSize().padding(end = 12.dp),
+                             state,
+                             horizontalAlignment = Alignment.CenterHorizontally
+                         )
+                         { index, x ->
+                             Text("Item #${x.name}")
+                             Spacer(modifier = Modifier.height(5.dp))
+                         }
+
+                         VerticalScrollbar(
+                             modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd),
+                             adapter = rememberScrollbarAdapter(
+                                 scrollState = state,
+                                 itemCount = itemUnitGroupList.value.size,
+                                 averageItemSize = 37.dp // TextBox height + Spacer height
+                             )
+                         )
+                     }
+
+
+                 }
+
+             }
+
+             Row(Modifier.weight(1f)) {
+                 Column( Modifier, Arrangement.Center, Alignment.CenterHorizontally) {
+                     val itemName = remember { mutableStateOf(TextFieldValue("")) }
+                     OutlinedTextField(
+                         value = itemName.value,
+                         onValueChange = { itemName.value = it },
+                         leadingIcon = { },
+                         trailingIcon = {
+
+                             Icon(imageVector = Icons.Outlined.AddCircle, Modifier.clickable {
+                               //  colItem.insertOne(Item(itemName.value.text))
+                               //  itemtList.value.add(0,Item(itemName.value.text))
+                                 // itemUnitList.value=colItemUnit.find().into(mutableListOf())
+                                 itemName.value = TextFieldValue("")
+
+                             }.wrapContentWidth().padding(4.dp))
+
+                         },
+                         modifier = Modifier,
+                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                         label = { Text(text = "item name") },
+                         placeholder = { Text(text = "choes item name") },
+
+                         )
+
+                 }
+
+             }
+
+
+
+
 
     }
 }
 
 
-@Composable
-fun unitNameListInput() {
-
-    Card(
-        modifier = Modifier.wrapContentWidth().padding(8.dp).shadow(4.dp),
-        shape = MaterialTheme.shapes.large,
-        elevation = 2.dp
-    )
-    {
-        val state = rememberScrollState(0f)
-
-        val itemUnitList = remember { mutableStateOf(colItemUnit.find().spliterator()) }
-
-        Column() {
-            val itemUnitName = remember { mutableStateOf(TextFieldValue("")) }
-            OutlinedTextField(
-                value = itemUnitName.value,
-                onValueChange = { itemUnitName.value = it },
-                leadingIcon = { },
-                trailingIcon = {
-
-                    Icon(imageVector = Icons.Outlined.AddCircle, Modifier.clickable {
-                        itemUnitName.value = TextFieldValue("")
-
-                    }.wrapContentWidth().padding(4.dp))
-
-                },
-                modifier = Modifier,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                label = { Text(text = "item unit") },
-                placeholder = { Text(text = "choes item unit") },
-
-                )
-
-        }
-
-    }
-
-}
 
 
 

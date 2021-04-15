@@ -7,6 +7,7 @@ public data class Users(val name: String, val passWord: String)
 public data class Item(val name: String)
 public data class ItemType(val name: String?, val value: Int?)
 public data class ItemUnit(val name: String?)
+ data class ItemUnitGroup(val name: String?)
 
 
 
@@ -18,6 +19,7 @@ val col = database.getCollection<Users>()
 val colItem = database.getCollection<Item>()
 val colItemUnit = database.getCollection<ItemUnit>()
 
+val colItemUnitGroup = database.getCollection<ItemUnitGroup>()
 
 //KMongo extension method
 //here the name of the collection by convention is "jedi"

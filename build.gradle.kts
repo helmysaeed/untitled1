@@ -21,6 +21,8 @@ dependencies {
     implementation("org.mongodb:mongodb-driver-sync:4.2.2")
     implementation("org.litote.kmongo:kmongo:4.2.5")
     implementation ("com.itextpdf:itext7-core:7.1.14")
+  //implementation ("androidx.compose.material:material:$version")
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 tasks.withType<KotlinCompile>() {
@@ -35,4 +37,12 @@ compose.desktop {
             packageName = "untitled1"
         }
     }
+}
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    jvmTarget = "1.8"
 }

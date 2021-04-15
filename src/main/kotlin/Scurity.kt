@@ -1,42 +1,20 @@
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.*
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Place
-import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material.icons.outlined.KeyboardArrowUp
+import androidx.compose.material.icons.outlined.AccountBox
 import androidx.compose.material.icons.outlined.ShoppingCart
-import androidx.compose.material.icons.rounded.ShoppingCart
-import androidx.compose.material.icons.sharp.ShoppingCart
-import androidx.compose.material.icons.twotone.ShoppingCart
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.mongodb.client.model.Filters.eq
 import androidx.compose.runtime.*
-import androidx.compose.ui.graphics.vector.DefaultTintBlendMode
-import com.itextpdf.kernel.pdf.PdfName.Print
-import com.mongodb.client.model.Filters
-import com.sun.tools.javac.Main
-import kotlinx.coroutines.flow.MutableStateFlow
-import javax.print.attribute.standard.PrinterInfo
-import com.mongodb.BasicDBObject
-import com.mongodb.client.MongoCursor
-import org.bson.Document
+import androidx.compose.ui.input.mouse.MouseScrollUnit
 import org.litote.kmongo.*
-import org.litote.kmongo.util.idValue
-import java.util.ArrayList
-import javax.swing.text.NavigationFilter
 
 
 val useslist =      col.find().iterator()
@@ -172,11 +150,9 @@ fun LoginForm(visablex: Boolean)
 @Composable
 fun NavigatioPage(visablex: Boolean)
 {
-    var text by remember { mutableStateOf("Hello, World!") }
-    var expanded by remember { mutableStateOf(false) }
-    val state = rememberScrollState(0f)
-    val stateVertical = rememberScrollState(0f)
-    val page = remember { mutableStateOf(0.0) }
+          val pageRoot= remember { mutableStateOf(0.0) }
+    val pageChild = remember { mutableStateOf(0.0) }
+
     val visable = remember { mutableStateOf(visablex) }
     if (visable.value==true)
         Row() {
@@ -191,10 +167,16 @@ fun NavigatioPage(visablex: Boolean)
 
                 ) {
 
-                    if (page.value.equals(Pages.inventorypage.pagevalu)) {
-                       // inventoryForm()
-                        unitInput()
-                     //  LazyScrollable()
+                   if (pageChild.value.equals(Pages.ItemName.pagevalu))
+                   {               autocompolit()
+                            // itemInput()
+                   }else if (pageChild.value.equals(Pages.UnitName.pagevalu))
+                   {
+                       unitInput()
+                   }
+                    if (pageChild.value.equals(Pages.UnitGroupPage.pagevalu))
+                    {
+                        unitNameGroupInput()
                     }
 
                 }
@@ -209,8 +191,44 @@ fun NavigatioPage(visablex: Boolean)
                 ) {
 
 
-                    if (page.value.equals(1.0)) {
-                        menuChild(page.value)
+                    if (pageRoot.value.equals(Pages.InventoryPage.pagevalu)) {
+                      //  inventoryMenu(page.value)
+
+                        Column {
+
+                            Button( onClick = {
+                                pageChild.value=Pages.ItemName.pagevalu
+                                //   print(""+page.value+" iii "+Pages.UnitName.pagevalu.toDouble())
+                            }){
+
+                                Text("item name name")
+
+
+                            }
+
+
+                            Button( onClick = {    pageChild.value=Pages.UnitName.pagevalu}){
+
+
+                                Text("unit name  ")}
+
+
+                            Button( onClick = {
+
+                                pageChild.value=Pages.UnitGroupPage.pagevalu
+                            }){
+
+
+                                Text("unit group ")
+
+
+                            }
+
+
+
+                        }
+
+
 
                     } else {
 
@@ -229,20 +247,25 @@ fun NavigatioPage(visablex: Boolean)
 
                     Column(Modifier.align(Alignment.CenterVertically).wrapContentHeight()) {
 
-                        IconButton(onClick = { page.value = 1.0 }, Modifier)
+                        Text("inventory")
+
+                        IconButton(onClick = { pageRoot.value=Pages.InventoryPage.pagevalu }, Modifier)
 
                         {
 
-                            Text("1")
-                            Icon(imageVector = Icons.Outlined.ShoppingCart,Modifier.background(Color.LightGray))
+
+                            Icon(imageVector = Icons.Outlined.ShoppingCart)
 
 
                             }
-
-                        IconButton(onClick = { page.value = 2.0 }, Modifier)
+                        Text("unit goup")
+                        IconButton(onClick = {  pageRoot.value=Pages.InventoryPage.pagevalu}, Modifier)
 
                         {
-                            Text("2")
+                            Icon(imageVector = Icons.Outlined.AccountBox)
+
+
+
 
 
                         }
@@ -256,7 +279,76 @@ fun NavigatioPage(visablex: Boolean)
         }
 
 
+@ExperimentalFoundationApi
 
+@Composable
+fun inventoryMenu(pagex: Double)
+{
+    var
+            page = remember { mutableStateOf(0.0) }
+
+
+    Column {
+
+        Button( onClick = {
+            page.value=Pages.ItemName.pagevalu
+          //   print(""+page.value+" iii "+Pages.UnitName.pagevalu.toDouble())
+        }){
+
+            Text("item name name")
+
+
+        }
+
+
+        Button( onClick = {    page.value=Pages.UnitName.pagevalu}){
+
+
+            Text("unit name ${page.value} ")}
+
+
+        Button( onClick = {
+
+            page.value=Pages.UnitGroupPage.pagevalu
+        }){
+
+
+            Text("unit group ${ page.value}")
+
+
+        }
+        if (page.value.equals(Pages.ItemName.pagevalu.toDouble()))
+        {
+            // Text("unit group ")
+            print("0age"+page.value)
+              unitNameGroupInput()
+        }
+
+
+        else if (page.value.equals(Pages.UnitGroupPage.pagevalu.toDouble()))
+
+        {
+            print("0age"+page.value)
+
+            unitNameGroupInput()
+        }else if (page.value.equals(Pages.UnitName.pagevalu.toDouble()))
+        {
+            print("0age"+page.value)
+
+            unitInput()
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+}
 
 @Composable
 fun menuChild( page :Double)
@@ -264,13 +356,24 @@ fun menuChild( page :Double)
 
     Card() {
 
-        Text(
-            "Hello, World!$page",
-            Modifier.padding(16.dp) .wrapContentWidth().wrapContentHeight()// Outer padding; outside background
-                .background(color = Color.Green) // Solid element background color
-                .padding(1.dp) // Inner padding; inside background, around text
-        )
-    }
+        Column {
 
+            Text(
+                "Hello, World!$page",
+                Modifier.padding(16.dp).wrapContentWidth().wrapContentHeight()// Outer padding; outside background
+                    .background(color = Color.Green) // Solid element background color
+                    .padding(1.dp) // Inner padding; inside background, around text
+            )
+
+
+            Text(
+                "Hello, World!$page",
+                Modifier.padding(16.dp).wrapContentWidth().wrapContentHeight()// Outer padding; outside background
+                    .background(color = Color.Green) // Solid element background color
+                    .padding(1.dp) // Inner padding; inside background, around text
+            )
+        }
+
+    }
 
 }
