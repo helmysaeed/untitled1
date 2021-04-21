@@ -27,6 +27,7 @@ import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.InternalTextApi
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeOptions
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Position
@@ -48,18 +49,12 @@ fun autocompolit(index:Int?) {
     val index2 = remember { mutableStateOf(index) }
 
     var pontx = remember { mutableStateOf(0) }
-    val ponty = remember { mutableStateOf(0) }
+    var total = remember { mutableStateOf(0) }
 
     Column(Modifier, Arrangement.Center, Alignment.CenterHorizontally) {
-        val itemName = remember { mutableStateOf(TextFieldValue("")) }
         val unit = remember { mutableStateOf(TextFieldValue("")) }
         val quantity = remember { mutableStateOf(TextFieldValue("")) }
-
-        val items = remember {
-
-            mutableStateOf(colItem.find(BasicDBObject("name", itemName.value.text)).into(mutableListOf()))
-
-        }
+        val total = remember { mutableStateOf(TextFieldValue("")) }
 
 
         val unitlist = remember {
@@ -70,7 +65,6 @@ fun autocompolit(index:Int?) {
         val tex = remember { mutableStateOf("") }
 
         val items2 = remember { mutableStateOf(mutableListOf("")) }
-        var expanded = remember { mutableStateOf(false) }
         var expandedUnit = remember { mutableStateOf(false) }
         var active = remember { mutableStateOf(false) }
 
@@ -81,77 +75,11 @@ fun autocompolit(index:Int?) {
 
 
         Row(Modifier.fillMaxWidth().fillMaxHeight()) {
-            Row(Modifier.weight(1f)) {
-                Column(Modifier.wrapContentHeight()) {
 
-
-                    CoreTextField(
-                        value = itemName.value,
-                        onValueChange = {
-                            itemName.value = it
-
-
-                            if (it.text.isNotBlank()) {
-
-                                items.value = colItem.find(Filters.regex("name", it.text)).into(mutableListOf())
-                                expanded.value = true
-                            }
-
-                        },
-
-                        modifier = Modifier.fillMaxWidth().wrapContentHeight().border(0.25.dp, Color.LightGray)
-                            .padding(4.dp),
-                        cursorColor = Color.Black
-
-                    )
-
-
-                    Box(modifier = Modifier.fillMaxWidth().offset(0.dp, 0.dp), Alignment.Center) {
-
-                        DropdownMenu(
-                            expanded = expanded.value,
-                            onDismissRequest = { expanded.value = false },
-                            toggle = { Modifier },
-                            dropdownOffset = Position(0.dp, 0.dp),
-                            dropdownModifier = Modifier.wrapContentWidth(),
-                            dropdownContent = {
-                                DropdownMenu(
-                                    expanded = expanded.value,
-                                    onDismissRequest = { expanded.value = false },
-                                    toggle = {Modifier.background(Color.Blue)},
-                                    dropdownOffset = Position(0.dp,0.dp),
-                                    dropdownModifier = Modifier.wrapContentWidth(),
-                                    dropdownContent = {
-                                        items.value.forEachIndexed { index, s ->
-                                            DropdownMenuItem(onClick = {
-                                                itemName.value= TextFieldValue(s.name.toString()+"."      )
-                                                expanded.value=false
-                                                active.value=false
-                                            }
-                                                ,Modifier.fillMaxWidth()) {
-
-                                                s.name?.let { Text(it,Modifier) }
-                                            }
-                                        }
-                                    }
-
-
-
-
-
-                                )
-
-
-                            }
-
-
-                        )
-
-
-                    }
-
-                }
+            Row(Modifier.weight(1f)){
+                itemDroupMenu()
             }
+
             Row(Modifier.weight(1f)) {
                 Column(Modifier.wrapContentHeight()) {
 
@@ -242,7 +170,126 @@ fun autocompolit(index:Int?) {
                     modifier = Modifier.fillMaxWidth().wrapContentHeight().border(0.25.dp, Color.LightGray)
                         .padding(4.dp),
 
-                    cursorColor = Color.Black
+                    cursorColor = Color.Black,
+
+
+
+
+                )
+
+
+            }
+
+            Row(Modifier.weight(0.5f)) {
+
+                CoreTextField(
+                    value = total.value,
+                    onValueChange = {
+                        total.value = it
+
+
+                        if (it.text.isNotBlank()) {
+
+
+                        }
+
+                    },
+
+
+                    modifier = Modifier.fillMaxWidth().wrapContentHeight().border(0.25.dp, Color.LightGray)
+                        .padding(4.dp),
+
+                    cursorColor = Color.Black,
+
+
+
+
+                    )
+
+
+            }
+        }
+
+
+    }
+
+}
+
+@InternalTextApi
+@Composable
+fun itemDroupMenu()
+{        var expanded = remember { mutableStateOf(false) }
+
+    val itemName = remember { mutableStateOf(TextFieldValue("")) }
+    val items = remember {
+
+        mutableStateOf(colItem.find(BasicDBObject("name", itemName.value.text)).into(mutableListOf()))
+
+    }
+
+
+
+
+        Column(Modifier.fillMaxWidth()) {
+
+
+            CoreTextField(
+                value = itemName.value,
+                onValueChange = {
+                    itemName.value = it
+
+
+                    if (it.text.isNotBlank()) {
+
+                        items.value = colItem.find(Filters.regex("name", it.text)).into(mutableListOf())
+                        expanded.value = true
+                    }
+
+                },
+
+                modifier = Modifier.fillMaxWidth().wrapContentHeight().border(0.25.dp, Color.LightGray)
+                    .padding(4.dp),
+                cursorColor = Color.Black
+
+            )
+
+
+            Box(modifier = Modifier.defaultMinSizeConstraints().offset(0.dp, 0.dp), Alignment.TopCenter) {
+
+                DropdownMenu(
+                    expanded = expanded.value,
+                    onDismissRequest = { expanded.value = false },
+                    toggle = { Modifier },
+                    dropdownOffset = Position(0.dp, 0.dp),
+                    dropdownModifier = Modifier.defaultMinSizeConstraints(),
+                    dropdownContent = {
+                        DropdownMenu(
+                            expanded = expanded.value,
+                            onDismissRequest = { expanded.value = false },
+                            toggle = {Modifier.background(Color.Blue)},
+                            dropdownOffset = Position(0.dp,0.dp),
+                            dropdownModifier = Modifier.wrapContentWidth(),
+                            dropdownContent = {
+                                items.value.forEachIndexed { index, s ->
+                                    DropdownMenuItem(onClick = {
+                                        itemName.value= TextFieldValue(s.name.toString()+"."      )
+                                        expanded.value=false
+                                    }
+                                        ,Modifier.defaultMinSizeConstraints()) {
+
+                                        s.name?.let { Text(it,Modifier) }
+                                    }
+                                }
+                            }
+
+
+
+
+
+                        )
+
+
+                    },
 
 
                 )
@@ -251,10 +298,7 @@ fun autocompolit(index:Int?) {
             }
 
         }
-
-
     }
 
-}
 
 

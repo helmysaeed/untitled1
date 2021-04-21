@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.ExperimentalFocus
 import androidx.compose.ui.text.InternalTextApi
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.mongodb.BasicDBObject
@@ -128,6 +129,9 @@ fun inventoryForm()
 
                     }
                 }
+
+
+
 
 
                 OutlinedTextField(
@@ -318,15 +322,16 @@ fun sales()
 
         Column( Modifier, Arrangement.Center, Alignment.CenterHorizontally) {
             Row {
-                Text("item",Modifier.weight(1f))
-                Text("unit",Modifier.weight(1f))
-                Text("number",Modifier.weight(1f))
+                Text("item",Modifier.weight(1f).padding(4.dp))
+                Text("unit",Modifier.weight(1f).padding(4.dp))
+                Text("number",Modifier.weight(0.5f).padding(4.dp))
+                Text("sum",Modifier.weight(0.5f))
 
             }
 
             Box(
                 modifier = Modifier.fillMaxSize()
-                    .padding(10.dp).border(border = BorderStroke(0.5.dp, MaterialTheme.colors.primary))
+                    .padding(10.dp)
             ) {
 
                 val state = rememberLazyListState()
