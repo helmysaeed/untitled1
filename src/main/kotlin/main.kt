@@ -9,11 +9,13 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.ExperimentalFocus
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.layout.VerticalAlignmentLine
+import androidx.compose.ui.text.InternalTextApi
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -22,6 +24,9 @@ import com.mongodb.client.model.Filters
 import org.litote.kmongo.rename
 import javax.swing.Scrollable
 
+@ExperimentalFocus
+@ExperimentalLayout
+@InternalTextApi
 @ExperimentalFoundationApi
 fun main() = Window {
 

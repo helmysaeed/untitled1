@@ -22,7 +22,7 @@ dependencies {
     implementation("org.litote.kmongo:kmongo:4.2.5")
     implementation ("com.itextpdf:itext7-core:7.1.14")
   //implementation ("androidx.compose.material:material:$version")
-    implementation(kotlin("stdlib-jdk8"))
+    implementation("org.slf4j:slf4j-log4j12:1.7.30")
 }
 
 tasks.withType<KotlinCompile>() {

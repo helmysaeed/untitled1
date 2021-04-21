@@ -13,13 +13,18 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.mongodb.client.model.Filters.eq
 import androidx.compose.runtime.*
+import androidx.compose.ui.focus.ExperimentalFocus
 import androidx.compose.ui.input.mouse.MouseScrollUnit
+import androidx.compose.ui.text.InternalTextApi
 import org.litote.kmongo.*
 
 
 val useslist =      col.find().iterator()
 
 
+@ExperimentalLayout
+@ExperimentalFocus
+@InternalTextApi
 @ExperimentalFoundationApi
 @Composable
 fun RootPage(visablex: Boolean=false ){
@@ -42,6 +47,9 @@ fun RootPage(visablex: Boolean=false ){
 
 
 
+@ExperimentalLayout
+@ExperimentalFocus
+@InternalTextApi
 @ExperimentalFoundationApi
 @Composable
 fun LoginForm(visablex: Boolean)
@@ -146,6 +154,9 @@ fun LoginForm(visablex: Boolean)
 
 
 }
+@ExperimentalLayout
+@ExperimentalFocus
+@InternalTextApi
 @ExperimentalFoundationApi
 @Composable
 fun NavigatioPage(visablex: Boolean)
@@ -168,7 +179,7 @@ fun NavigatioPage(visablex: Boolean)
                 ) {
 
                    if (pageChild.value.equals(Pages.ItemName.pagevalu))
-                   {               autocompolit()
+                   {               autocompolit(null)
                             // itemInput()
                    }else if (pageChild.value.equals(Pages.UnitName.pagevalu))
                    {
@@ -177,6 +188,10 @@ fun NavigatioPage(visablex: Boolean)
                     if (pageChild.value.equals(Pages.UnitGroupPage.pagevalu))
                     {
                         unitNameGroupInput()
+                    }
+                    if (pageChild.value.equals(Pages.Sales.pagevalu))
+                    {
+                        sales()
                     }
 
                 }
@@ -224,7 +239,16 @@ fun NavigatioPage(visablex: Boolean)
 
                             }
 
+                            Button( onClick = {
 
+                                pageChild.value=Pages.Sales.pagevalu
+                            }){
+
+
+                                Text("sales ")
+
+
+                            }
 
                         }
 

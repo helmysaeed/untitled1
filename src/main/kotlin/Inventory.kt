@@ -14,6 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.ExperimentalFocus
+import androidx.compose.ui.text.InternalTextApi
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -288,6 +290,71 @@ fun unitInput()
         }
 
     }
+
+
+}
+@ExperimentalLayout
+@ExperimentalFocus
+@InternalTextApi
+@ExperimentalFoundationApi
+@Composable
+fun sales()
+
+{
+
+
+    colItem.find(BasicDBObject("name","" )).into(mutableListOf())
+
+    val itemUnitList =      remember {
+
+    mutableStateOf(mutableListOf(1,2,3,4,5,6))
+
+}
+    val stateVertical = rememberScrollState(0F)
+    val stateHorizontal = rememberScrollState(0F)
+
+
+
+
+        Column( Modifier, Arrangement.Center, Alignment.CenterHorizontally) {
+            Row {
+                Text("item",Modifier.weight(1f))
+                Text("unit",Modifier.weight(1f))
+                Text("number",Modifier.weight(1f))
+
+            }
+
+            Box(
+                modifier = Modifier.fillMaxSize()
+                    .padding(10.dp).border(border = BorderStroke(0.5.dp, MaterialTheme.colors.primary))
+            ) {
+
+                val state = rememberLazyListState()
+                val indesta =
+
+                LazyColumnForIndexed(itemUnitList.value,Modifier.fillMaxWidth().padding(0.dp), state, horizontalAlignment = Alignment.CenterHorizontally)
+                {
+                        index, x ->
+                    autocompolit(index)
+                }
+
+                VerticalScrollbar(
+                    modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd),
+                    adapter = rememberScrollbarAdapter(
+                        scrollState = state,
+                        itemCount = itemUnitList.value.size,
+                        averageItemSize = 37.dp // TextBox height + Spacer height
+                    )
+                )
+            }
+
+
+
+
+
+        }
+
+
 
 
 }
